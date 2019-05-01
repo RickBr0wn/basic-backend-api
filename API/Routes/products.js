@@ -13,9 +13,14 @@ router.get('/', (req, res, next) => {
 // @route   POST /products/
 // @desc    Post a new product
 // @access  Public
-router.post('/', (req, res, next) => {
+router.post('/', require('body-parser').json(), (req, res, next) => {
+  const product = {
+    name: req.body.name,
+    price: req.body.price
+  }
   res.status(201).json({
-    message: 'Handling POST requests to /products'
+    message: 'Handling POST requests to /products',
+    createdProduct: product
   })
 })
 

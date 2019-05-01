@@ -13,9 +13,14 @@ router.get('/', (req, res, next) => {
 // @route   POST /orders/
 // @desc    Get all orders
 // @access  Public
-router.post('/', (req, res, next) => {
+router.post('/', require('body-parser').json(), (req, res, next) => {
+  const order = {
+    productID: req.body.productID,
+    quantity: req.body.quantity
+  }
   res.status(201).json({
-    message: 'Orders were fetched'
+    message: 'Orders were fetched',
+    order
   })
 })
 
