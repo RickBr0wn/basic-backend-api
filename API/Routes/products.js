@@ -76,7 +76,7 @@ router.patch('/:productId', require('body-parser').json(), (req, res, next) => {
   for (const ops of req.body) {
     updateOps[ops.propName] = ops.value
   }
-  Product.update({ _id: id }, { $set: updateOps })
+  Product.updateOne({ _id: id }, { $set: updateOps })
     .exec()
     .then(result => {
       console.log(result)
