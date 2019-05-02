@@ -70,43 +70,23 @@ router.get('/:productID', (req, res, next) => {
     })
 })
 
-// @route   PATCH /products/:productID
-// @desc    Update an individual product based on id
-// @access  Public
-// router.patch('/:productId', (req, res, next) => {
-//   const id = req.params.productId
-//   const updateOps = {}
-//   for (const ops of req.body) {
-//     updateOps[ops.propName] = ops.value
-//   }
-//   Product.update({ _id: id }, { $set: updateOps })
-//     .exec()
-//     .then(result => {
-//       console.log(result)
-//       res.status(200).json(result)
-//     })
-//     .catch(err => {
-//       console.log(err)
-//       res.status(500).json({
-//         error: err
-//       })
-//     })
-// })
-router.patch('/:productID', (req, res, next) => {
-  Product.findByIdAndUpdate(req.params.productID, req.body)
+router.patch('/:productId', require('body-parser').json(), (req, res, next) => {
+  const id = req.params.productId
+  const updateOps = {}
+  for (const ops of req.body) {
+    updateOps[ops.propName] = ops.value
+  }
+  Product.update({ _id: id }, { $set: updateOps })
     .exec()
     .then(result => {
-      if (result) {
-        res.status(200).json({ result, message: 'Updated' })
-      } else {
-        res.status(404).json({
-          message: 'Invalid id'
-        })
-      }
       console.log(result)
+      res.status(200).json(result)
     })
-    .catch(error => {
-      res.status(500).json({ error })
+    .catch(err => {
+      console.log(err)
+      res.status(500).json({
+        error: err
+      })
     })
 })
 
