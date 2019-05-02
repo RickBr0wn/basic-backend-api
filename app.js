@@ -1,16 +1,32 @@
+require('dotenv').config()
 const express = require('express')
 const app = express()
 const morgan = require('morgan')
+const mongoose = require('mongoose')
 const productRoutes = require('./api/routes/products')
 const orderRoutes = require('./api/routes/orders')
 
 // Allows request data in server console.log
 app.use(morgan('dev'))
 
+// Connect to mongoDB
+mongoose
+  .connect(
+    `mongodb+srv://${process.env.MONGO_USER}:${
+      process.env.MONGO_PASSWORD
+    }@basic-backend-api-nnvyx.mongodb.net/test?retryWrites=true`,
+    { useNewUrlParser: true }
+  )
+  .then(data =>
+    console.log(
+      `Welcome ${process.env.MONGO_USER}, You are now connected to ${
+        process.env.MONGO_DB
+      }.`
+    )
+  )
+  .catch(err => console.log(err))
+
 app.use((req, res, next) => {
-  // Second param in .header() limits connection
-  // * allows any connection
-  // Could be 'https//:mySite.com'
   res.header('Access-Control-Allow-Origin', '*')
   res.header(
     'Access-Control-Allow-Headers',
