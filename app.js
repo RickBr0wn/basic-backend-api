@@ -40,7 +40,7 @@ app.use((req, res, next) => {
 })
 
 // Routes
-app.use('/products', productRoutes)
+app.use('/products/', productRoutes)
 app.use('/orders/', orderRoutes)
 
 // Display a 404 - not found page
