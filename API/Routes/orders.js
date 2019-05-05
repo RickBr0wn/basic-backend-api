@@ -3,12 +3,13 @@ const router = express.Router()
 const mongoose = require('mongoose')
 const Order = require('../Models/order')
 const Product = require('../Models/product')
+const checkAuth = require('../Middleware/check-auth')
 
 // @route   GET /orders/
 // @desc    Get all orders
 // @access  Public/
 // @body    null
-router.get('/', (req, res, next) => {
+router.get('/', checkAuth, (req, res, next) => {
   Order.find()
     .select('product quantity _id')
     .exec()
@@ -39,7 +40,7 @@ router.get('/', (req, res, next) => {
 // @desc    Create a new order, from a productID
 // @access  Public
 // @body    raw/json - { "productID": mongoose.Schema.Types.ObjectId, "quantity": Number}
-router.post('/', (req, res, next) => {
+router.post('/', checkAuth, (req, res, next) => {
   console.log('REQ.BODY: ', req.body)
   Product.findById(req.body.productID)
     .then(product => {
@@ -83,7 +84,7 @@ router.post('/', (req, res, next) => {
 // @desc    Get an individual order based on an orderId
 // @access  Public
 // @body    null
-router.get('/:orderId', (req, res, next) => {
+router.get('/:orderId', checkAuth, (req, res, next) => {
   Order.findById(req.params.orderId)
     .exec()
     .then(order => {
@@ -111,7 +112,7 @@ router.get('/:orderId', (req, res, next) => {
 // @desc    Update an individual order based on an orderId
 // @access  Public
 // @body    TODO
-router.patch('/:orderId', (req, res, next) => {
+router.patch('/:orderId', checkAuth, (req, res, next) => {
   res.status(200).json({
     message: 'Updated order'
   })
@@ -121,7 +122,7 @@ router.patch('/:orderId', (req, res, next) => {
 // @desc    Delete an individual order based on an orderId
 // @access  Public
 // @body    null
-router.delete('/:orderId', (req, res, next) => {
+router.delete('/:orderId', checkAuth, (req, res, next) => {
   Order.remove({ _id: req.params.orderId })
     .exec()
     .then(result => {

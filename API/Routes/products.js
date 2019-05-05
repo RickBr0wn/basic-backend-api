@@ -3,8 +3,12 @@ const router = express.Router()
 const mongoose = require('mongoose')
 const multer = require('multer')
 const Product = require('../Models/product')
-// Helper function
+
+// Helper functions
 const oneMegabyte = 1024 * 1024
+
+// Middlewares
+const checkAuth = require('../Middleware/check-auth')
 
 // MULTER CONFIG -> START
 const storage = multer.diskStorage({
@@ -68,7 +72,7 @@ router.get('/', (req, res, next) => {
 // @desc    Post a new product
 // @access  Public
 // @body    form-data - { name: String, price: Number, productImage: file }
-router.post('/', upload.single('productImage'), (req, res, next) => {
+router.post('/', checkAuth, upload.single('productImage'), (req, res, next) => {
   console.log(req.file)
   const product = new Product({
     _id: new mongoose.Types.ObjectId(),
@@ -135,7 +139,7 @@ router.get('/:productId', (req, res, next) => {
 // @desc    Update an individual product based on id
 // @access  Public
 // @body    Array - [{ "propName": String, "value": String }]
-router.patch('/:productId', (req, res, next) => {
+router.patch('/:productId', checkAuth, (req, res, next) => {
   const id = req.params.productId
   const updateOps = {}
   for (const ops of req.body) {
@@ -165,7 +169,7 @@ router.patch('/:productId', (req, res, next) => {
 // @desc    Delete an individual product based on id
 // @access  Public
 // @body    null
-router.delete('/:productId', (req, res, next) => {
+router.delete('/:productId', checkAuth, (req, res, next) => {
   const id = req.params.productId
   Product.deleteOne({ _id: id })
     .select('name price _id')
