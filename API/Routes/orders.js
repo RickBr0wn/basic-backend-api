@@ -38,7 +38,7 @@ router.get('/', (req, res, next) => {
 // @route   POST /orders/
 // @desc    Create a new order, from a productID
 // @access  Public
-// @body    Object - { "productID": mongoose.Schema.Types.ObjectId, "quantity": Number}
+// @body    raw/json - { "productID": mongoose.Schema.Types.ObjectId, "quantity": Number}
 router.post('/', (req, res, next) => {
   console.log('REQ.BODY: ', req.body)
   Product.findById(req.body.productID)
