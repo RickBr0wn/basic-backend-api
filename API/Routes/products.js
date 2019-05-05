@@ -67,43 +67,38 @@ router.get('/', (req, res, next) => {
 // @desc    Post a new product
 // @access  Public
 // @body    Object - { "name": String, "price": Number }
-router.post(
-  '/',
-  require('body-parser').json(),
-  upload.single('productImage'),
-  (req, res, next) => {
-    console.log(req.file)
-    const product = new Product({
-      _id: new mongoose.Types.ObjectId(),
-      name: req.body.name,
-      price: req.body.price,
-      productImage: req.file.path
-    })
-    product
-      .save()
-      .then(result => {
-        console.log('Result: ', result)
-        res.status(201).json({
-          message: 'Created product successfully',
-          createdProduct: {
-            name: result.name,
-            price: result.price,
-            _id: result._id,
-            request: {
-              type: 'GET',
-              url: 'localhost:3000/products/' + result._id
-            }
+router.post('/', upload.single('productImage'), (req, res, next) => {
+  console.log(req.file)
+  const product = new Product({
+    _id: new mongoose.Types.ObjectId(),
+    name: req.body.name,
+    price: req.body.price,
+    productImage: req.file.path
+  })
+  product
+    .save()
+    .then(result => {
+      console.log('Result: ', result)
+      res.status(201).json({
+        message: 'Created product successfully',
+        createdProduct: {
+          name: result.name,
+          price: result.price,
+          _id: result._id,
+          request: {
+            type: 'GET',
+            url: 'localhost:3000/products/' + result._id
           }
-        })
+        }
       })
-      .catch(error => {
-        console.log(error)
-        res.status(500).json({
-          error
-        })
+    })
+    .catch(error => {
+      console.log(error)
+      res.status(500).json({
+        error
       })
-  }
-)
+    })
+})
 
 // @route   GET /products/:productId
 // @desc    Get an individual product based on id
@@ -139,7 +134,7 @@ router.get('/:productId', (req, res, next) => {
 // @desc    Update an individual product based on id
 // @access  Public
 // @body    Array - [{ "propName": String, "value": String }]
-router.patch('/:productId', require('body-parser').json(), (req, res, next) => {
+router.patch('/:productId', (req, res, next) => {
   const id = req.params.productId
   const updateOps = {}
   for (const ops of req.body) {

@@ -39,7 +39,7 @@ router.get('/', (req, res, next) => {
 // @desc    Create a new order, from a productID
 // @access  Public
 // @body    Object - { "productID": mongoose.Schema.Types.ObjectId, "quantity": Number}
-router.post('/', require('body-parser').json(), (req, res, next) => {
+router.post('/', (req, res, next) => {
   console.log('REQ.BODY: ', req.body)
   Product.findById(req.body.productID)
     .then(product => {
@@ -111,7 +111,7 @@ router.get('/:orderId', (req, res, next) => {
 // @desc    Update an individual order based on an orderId
 // @access  Public
 // @body    TODO
-router.patch('/:orderId', require('body-parser').json(), (req, res, next) => {
+router.patch('/:orderId', (req, res, next) => {
   res.status(200).json({
     message: 'Updated order'
   })
