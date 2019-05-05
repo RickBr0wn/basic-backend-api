@@ -66,7 +66,7 @@ router.get('/', (req, res, next) => {
 // @route   POST /products/
 // @desc    Post a new product
 // @access  Public
-// @body    Object - { "name": String, "price": Number }
+// @body    form-data - { name: String, price: Number, productImage: file }
 router.post('/', upload.single('productImage'), (req, res, next) => {
   console.log(req.file)
   const product = new Product({
