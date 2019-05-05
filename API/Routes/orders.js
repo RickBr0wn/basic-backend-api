@@ -36,7 +36,7 @@ router.get('/', (req, res, next) => {
 })
 
 // @route   POST /orders/
-// @desc    Get all orders
+// @desc    Create a new order, from a productID
 // @access  Public
 // @body    Object - { "productID": mongoose.Schema.Types.ObjectId, "quantity": Number}
 router.post('/', require('body-parser').json(), (req, res, next) => {
@@ -80,7 +80,7 @@ router.post('/', require('body-parser').json(), (req, res, next) => {
 })
 
 // @route   GET /orders/:orderId
-// @desc    Get an individual order based on id
+// @desc    Get an individual order based on an orderId
 // @access  Public
 // @body    null
 router.get('/:orderId', (req, res, next) => {
@@ -108,7 +108,7 @@ router.get('/:orderId', (req, res, next) => {
 })
 
 // @route   PATCH /orders/:orderId
-// @desc    Update an individual order based on id
+// @desc    Update an individual order based on an orderId
 // @access  Public
 // @body    TODO
 router.patch('/:orderId', require('body-parser').json(), (req, res, next) => {
@@ -118,7 +118,7 @@ router.patch('/:orderId', require('body-parser').json(), (req, res, next) => {
 })
 
 // @route   DELETE /orders/:orderId
-// @desc    Delete an individual order based on id
+// @desc    Delete an individual order based on an orderId
 // @access  Public
 // @body    null
 router.delete('/:orderId', (req, res, next) => {
