@@ -6,7 +6,8 @@ const Product = require('../Models/product')
 
 // @route   GET /orders/
 // @desc    Get all orders
-// @access  Public
+// @access  Public/
+// @body    null
 router.get('/', (req, res, next) => {
   Order.find()
     .select('product quantity _id')
@@ -37,6 +38,7 @@ router.get('/', (req, res, next) => {
 // @route   POST /orders/
 // @desc    Get all orders
 // @access  Public
+// @body    Object - { "productID": mongoose.Schema.Types.ObjectId, "quantity": Number}
 router.post('/', require('body-parser').json(), (req, res, next) => {
   console.log('REQ.BODY: ', req.body)
   Product.findById(req.body.productID)
@@ -80,6 +82,7 @@ router.post('/', require('body-parser').json(), (req, res, next) => {
 // @route   GET /orders/:orderId
 // @desc    Get an individual order based on id
 // @access  Public
+// @body    null
 router.get('/:orderId', (req, res, next) => {
   Order.findById(req.params.orderId)
     .exec()
@@ -107,6 +110,7 @@ router.get('/:orderId', (req, res, next) => {
 // @route   PATCH /orders/:orderId
 // @desc    Update an individual order based on id
 // @access  Public
+// @body    TODO
 router.patch('/:orderId', require('body-parser').json(), (req, res, next) => {
   res.status(200).json({
     message: 'Updated order'
@@ -116,6 +120,7 @@ router.patch('/:orderId', require('body-parser').json(), (req, res, next) => {
 // @route   DELETE /orders/:orderId
 // @desc    Delete an individual order based on id
 // @access  Public
+// @body    null
 router.delete('/:orderId', (req, res, next) => {
   Order.remove({ _id: req.params.orderId })
     .exec()
