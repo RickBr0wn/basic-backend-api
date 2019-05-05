@@ -38,6 +38,7 @@ router.get('/', (req, res, next) => {
 // @desc    Get all orders
 // @access  Public
 router.post('/', require('body-parser').json(), (req, res, next) => {
+  console.log('REQ.BODY: ', req.body)
   Product.findById(req.body.productID)
     .then(product => {
       console.log('PRODUCT: ', product)
@@ -54,7 +55,7 @@ router.post('/', require('body-parser').json(), (req, res, next) => {
       return order.save()
     })
     .then(result => {
-      console.log('RESULT: ', result)
+      console.log('RESULT: ', result.product)
       res.status(201).json({
         message: 'Order stored',
         createdOrder: {
@@ -76,7 +77,7 @@ router.post('/', require('body-parser').json(), (req, res, next) => {
     })
 })
 
-// @route   GET /orders/:orderID
+// @route   GET /orders/:orderId
 // @desc    Get an individual order based on id
 // @access  Public
 router.get('/:orderId', (req, res, next) => {
@@ -103,16 +104,16 @@ router.get('/:orderId', (req, res, next) => {
     })
 })
 
-// @route   PATCH /orders/:orderID
+// @route   PATCH /orders/:orderId
 // @desc    Update an individual order based on id
 // @access  Public
-router.patch('/:orderID', require('body-parser').json(), (req, res, next) => {
+router.patch('/:orderId', require('body-parser').json(), (req, res, next) => {
   res.status(200).json({
     message: 'Updated order'
   })
 })
 
-// @route   DELETE /orders/:orderID
+// @route   DELETE /orders/:orderId
 // @desc    Delete an individual order based on id
 // @access  Public
 router.delete('/:orderId', (req, res, next) => {
@@ -124,7 +125,7 @@ router.delete('/:orderId', (req, res, next) => {
         request: {
           type: 'POST',
           url: 'http://localhost:3000/orders',
-          body: { productId: 'ID', quantity: 'Number' }
+          body: { productID: 'ID', quantity: 'Number' }
         }
       })
     })

@@ -6,6 +6,7 @@ const Product = require('../Models/product')
 // @route   GET /products/
 // @desc    Get all products
 // @access  Public
+// @body    null
 router.get('/', (req, res, next) => {
   Product.find()
     .select('name price _id')
@@ -34,6 +35,7 @@ router.get('/', (req, res, next) => {
 // @route   POST /products/
 // @desc    Post a new product
 // @access  Public
+// @body    Object - { "name": String, "price": Number }
 router.post('/', require('body-parser').json(), (req, res, next) => {
   const product = new Product({
     _id: new mongoose.Types.ObjectId(),
@@ -65,11 +67,12 @@ router.post('/', require('body-parser').json(), (req, res, next) => {
     })
 })
 
-// @route   GET /products/:productID
+// @route   GET /products/:productId
 // @desc    Get an individual product based on id
 // @access  Public
-router.get('/:productID', (req, res, next) => {
-  const id = req.params.productID
+// @body    null
+router.get('/:productId', (req, res, next) => {
+  const id = req.params.productId
   Product.findById(id)
     .select('price _id name')
     .exec()
@@ -94,14 +97,15 @@ router.get('/:productID', (req, res, next) => {
     })
 })
 
-// @route   PATCH /products/:productID
+// @route   PATCH /products/:productId
 // @desc    Update an individual product based on id
 // @access  Public
+// @body    Array - [{ "propName": String, "value": String }]
 router.patch('/:productId', require('body-parser').json(), (req, res, next) => {
   const id = req.params.productId
   const updateOps = {}
-  for (const [propName, value] of req.body) {
-    updateOps[propName] = value
+  for (const ops of req.body) {
+    updateOps[ops.propName] = ops.value
   }
   Product.updateOne({ _id: id }, { $set: updateOps })
     .select('name price _id')
@@ -123,11 +127,12 @@ router.patch('/:productId', require('body-parser').json(), (req, res, next) => {
     })
 })
 
-// @route   DELETE /products/:productID
+// @route   DELETE /products/:productId
 // @desc    Delete an individual product based on id
 // @access  Public
-router.delete('/:productID', (req, res, next) => {
-  const id = req.params.productID
+// @body    null
+router.delete('/:productId', (req, res, next) => {
+  const id = req.params.productId
   Product.deleteOne({ _id: id })
     .select('name price _id')
     .exec()
