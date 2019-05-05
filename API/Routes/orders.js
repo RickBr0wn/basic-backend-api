@@ -38,8 +38,9 @@ router.get('/', (req, res, next) => {
 // @desc    Get all orders
 // @access  Public
 router.post('/', require('body-parser').json(), (req, res, next) => {
-  Product.findById(req.body.productId)
+  Product.findById(req.body.productID)
     .then(product => {
+      console.log('PRODUCT: ', product)
       if (!product) {
         return res.status(404).json({
           message: 'Product not found'
@@ -48,12 +49,12 @@ router.post('/', require('body-parser').json(), (req, res, next) => {
       const order = new Order({
         _id: mongoose.Types.ObjectId(),
         quantity: req.body.quantity,
-        product: req.body.productId
+        product: req.body.productID
       })
       return order.save()
     })
     .then(result => {
-      console.log(result)
+      console.log('RESULT: ', result)
       res.status(201).json({
         message: 'Order stored',
         createdOrder: {

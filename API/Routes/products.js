@@ -94,11 +94,14 @@ router.get('/:productID', (req, res, next) => {
     })
 })
 
+// @route   PATCH /products/:productID
+// @desc    Update an individual product based on id
+// @access  Public
 router.patch('/:productId', require('body-parser').json(), (req, res, next) => {
   const id = req.params.productId
   const updateOps = {}
-  for (const ops of req.body) {
-    updateOps[ops.propName] = ops.value
+  for (const [propName, value] of req.body) {
+    updateOps[propName] = value
   }
   Product.updateOne({ _id: id }, { $set: updateOps })
     .select('name price _id')
