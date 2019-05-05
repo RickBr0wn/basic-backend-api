@@ -71,6 +71,7 @@ router.get('/', (req, res, next) => {
 // @route   POST /products/
 // @desc    Post a new product
 // @access  Public
+// @header  { Content-Type: application/json, Authorization: Bearer + whitespace + jwt token }
 // @body    form-data - { name: String, price: Number, productImage: file }
 router.post('/', checkAuth, upload.single('productImage'), (req, res, next) => {
   console.log(req.file)
@@ -138,7 +139,8 @@ router.get('/:productId', (req, res, next) => {
 // @route   PATCH /products/:productId
 // @desc    Update an individual product based on id
 // @access  Public
-// @body    Array - [{ "propName": String, "value": String }]
+// @header  { Content-Type: application/json, Authorization: Bearer + whitespace + jwt token }
+// @body    raw/json - [{ "propName": String, "value": String }]
 router.patch('/:productId', checkAuth, (req, res, next) => {
   const id = req.params.productId
   const updateOps = {}
@@ -168,6 +170,7 @@ router.patch('/:productId', checkAuth, (req, res, next) => {
 // @route   DELETE /products/:productId
 // @desc    Delete an individual product based on id
 // @access  Public
+// @header  { Content-Type: application/json, Authorization: Bearer + whitespace + jwt token }
 // @body    null
 router.delete('/:productId', checkAuth, (req, res, next) => {
   const id = req.params.productId

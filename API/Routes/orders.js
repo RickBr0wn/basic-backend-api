@@ -8,6 +8,7 @@ const checkAuth = require('../Middleware/check-auth')
 // @route   GET /orders/
 // @desc    Get all orders
 // @access  Public/
+// @header  { Content-Type: application/json, Authorization: Bearer + whitespace + jwt token }
 // @body    null
 router.get('/', checkAuth, (req, res, next) => {
   Order.find()
@@ -39,6 +40,7 @@ router.get('/', checkAuth, (req, res, next) => {
 // @route   POST /orders/
 // @desc    Create a new order, from a productID
 // @access  Public
+// @header  { Content-Type: application/json, Authorization: Bearer + whitespace + jwt token }
 // @body    raw/json - { "productID": mongoose.Schema.Types.ObjectId, "quantity": Number}
 router.post('/', checkAuth, (req, res, next) => {
   console.log('REQ.BODY: ', req.body)
@@ -83,6 +85,7 @@ router.post('/', checkAuth, (req, res, next) => {
 // @route   GET /orders/:orderId
 // @desc    Get an individual order based on an orderId
 // @access  Public
+// @header  { Content-Type: application/json, Authorization: Bearer + whitespace + jwt token }
 // @body    null
 router.get('/:orderId', checkAuth, (req, res, next) => {
   Order.findById(req.params.orderId)
@@ -121,6 +124,7 @@ router.patch('/:orderId', checkAuth, (req, res, next) => {
 // @route   DELETE /orders/:orderId
 // @desc    Delete an individual order based on an orderId
 // @access  Public
+// @header  { Content-Type: application/json, Authorization: Bearer + whitespace + jwt token }
 // @body    null
 router.delete('/:orderId', checkAuth, (req, res, next) => {
   Order.remove({ _id: req.params.orderId })
