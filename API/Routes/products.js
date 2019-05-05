@@ -6,7 +6,7 @@ const Product = require('../Models/product')
 // Helper function
 const oneMegabyte = 1024 * 1024
 
-// START -> multer configuration
+// MULTER CONFIG -> START
 const storage = multer.diskStorage({
   destination: function(req, file, callback) {
     callback(null, './uploads')
@@ -24,6 +24,7 @@ const fileFilter = (req, file, callback) => {
     callback(null, false)
   }
 }
+
 const upload = multer({
   storage,
   limits: {
@@ -31,7 +32,7 @@ const upload = multer({
   },
   fileFilter
 })
-// END - multer configuration
+// MULTER CONFIG -> END
 
 // @route   GET /products/
 // @desc    Get all products

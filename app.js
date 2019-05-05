@@ -3,15 +3,12 @@ const express = require('express')
 const app = express()
 const morgan = require('morgan')
 const mongoose = require('mongoose')
-const productRoutes = require('./api/routes/products')
-const orderRoutes = require('./api/routes/orders')
 
-// Allows request data in server console.log
-app.use(morgan('dev'))
-
-// Allows the /uploads folder to be publicly accessible.
-// Which in turn will handle routing for GET requests on /uploads folder
-app.use('/uploads', express.static('uploads'))
+// Route imports
+const productRoutes = require('./api/Routes/products')
+const orderRoutes = require('./api/Routes/orders')
+const userRoutes = require('./api/Routes/users')
+const bodyParser = require('body-parser')
 
 // Connect to mongoDB
 mongoose
@@ -19,7 +16,7 @@ mongoose
     `mongodb+srv://${process.env.MONGO_USER}:${
       process.env.MONGO_PASSWORD
     }@basic-backend-api-nnvyx.mongodb.net/test?retryWrites=true`,
-    { useNewUrlParser: true }
+    { useNewUrlParser: true, useCreateIndex: true }
   )
   .then(data =>
     console.log(
@@ -30,6 +27,21 @@ mongoose
   )
   .catch(err => console.log(err))
 
+mongoose.Promise = global.Promise
+
+// MIDDLEWARES -> START
+// Allows request data in server console.log
+app.use(morgan('dev'))
+
+// Allows the /uploads folder to be publicly accessible.
+// Which in turn will handle routing for GET requests on /uploads folder
+app.use('/uploads', express.static('uploads'))
+
+// include bodyParser, so req.body can be accessible
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
+
+// Handle CORS
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*')
   res.header(
@@ -42,10 +54,12 @@ app.use((req, res, next) => {
   }
   next()
 })
+// MIDDLEWARES -> END
 
 // Routes
 app.use('/products/', productRoutes)
 app.use('/orders/', orderRoutes)
+app.use('/users/', userRoutes)
 
 // Display a 404 - not found page
 app.use((req, res, next) => {
