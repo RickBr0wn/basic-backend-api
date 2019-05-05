@@ -9,7 +9,7 @@ const orderRoutes = require('./api/routes/orders')
 // Allows request data in server console.log
 app.use(morgan('dev'))
 
-// Allows the /uploads folder publicly accessible.
+// Allows the /uploads folder to be publicly accessible.
 // Which in turn will handle routing for GET requests on /uploads folder
 app.use('/uploads', express.static('uploads'))
 
