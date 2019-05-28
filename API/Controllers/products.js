@@ -11,7 +11,7 @@ exports.get_all_products = (req, res, next) => {
         products: docs.map(doc => ({
           name: doc.name,
           price: doc.price,
-          productImage: doc.productImage,
+          productImage: 'localhost:3000/' + doc.productImage,
           _id: doc._id,
           request: {
             type: 'GET',
