@@ -29,7 +29,6 @@ mongoose
 
 mongoose.Promise = global.Promise
 
-// MIDDLEWARES -> START
 // Allows request data in server console.log
 app.use(morgan('dev'))
 
@@ -54,7 +53,6 @@ app.use((req, res, next) => {
   }
   next()
 })
-// MIDDLEWARES -> END
 
 // Routes
 app.use('/products/', productRoutes)

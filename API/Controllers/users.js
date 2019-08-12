@@ -53,7 +53,7 @@ exports.login_user = (req, res, next) => {
       }
       bcrypt.compare(req.body.password, user.password, (error, result) => {
         if (error) {
-          return res.status(401).json({ message: 'Auth failed' })
+          return res.status(401).json({ message: 'Auth failed (bcrypt)' })
         }
         if (result) {
           const token = jwt.sign(
@@ -70,7 +70,7 @@ exports.login_user = (req, res, next) => {
     })
     .catch(error => {
       console.log(error)
-      res.status(500).json({ error })
+      res.status(500).json({ message: 'Auth failed' })
     })
 }
 
