@@ -13,16 +13,12 @@ const bodyParser = require('body-parser')
 // Connect to mongoDB
 mongoose
   .connect(
-    `mongodb+srv://${process.env.MONGO_USER}:${
-      process.env.MONGO_PASSWORD
-    }@basic-backend-api-nnvyx.mongodb.net/test?retryWrites=true`,
+    `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@basic-backend-api-nnvyx.mongodb.net/test?retryWrites=true&w=majority`,
     { useNewUrlParser: true, useCreateIndex: true }
   )
   .then(data =>
     console.log(
-      `Welcome ${process.env.MONGO_USER}, You are now connected to ${
-        process.env.MONGO_DB
-      }.`
+      `Welcome ${process.env.MONGO_USER}, You are now connected to ${process.env.MONGO_DB}.`
     )
   )
   .catch(err => console.log(err))
